@@ -5,27 +5,33 @@ const port = 8080;
 
 const {Db, esc, createTestDb, createTestTable} = require('./MysqlHelpers');
 
+let db;
 
-
-async function main() {
-  await createTestDb();
-  await createTestTable();
-  let db = new Db();
+async function test() {
+  await createTestTable(db);
   await db.query(`INSERT INTO 09errorlogs SET ${esc({errno: 1, error: "ok"})}`)
   await db.query(`INSERT INTO 09errorlogs (errno, error) VALUES ${esc([[1, '1'], [2, 'works!']])}`)
   let result = await db.query(`SELECT * FROM 09errorlogs`);
-  console.log(result);
   await db.query(`DROP TABLE 09errorlogs`);
+  return result;
 }
 
-main().catch(console.log)
-
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
+  let result = await test();
+  res.end(JSON.stringify(result));
 });
 
-server.listen(port, () => {
-  console.log(`Server running at Port ${port}`);
-});
+async function init() {
+
+  await createTestDb();
+  db = new Db();
+
+  server.listen(port, () => {
+    console.log(`Server running at Port ${port}`);
+  });
+}
+
+
+init().catch(console.log)
