@@ -1,8 +1,8 @@
 var mysql = require('mysql');
 
-const _mysql_pw = process.env._mysql_pw || 'root00020';
-const _mysql_user = process.env._mysql_user || 'root';
-const _mysql_url =  process.env._mysql_url || 'localhost';
+const _mysql_pw = process.env._MYSQL_PW || 'root00020';
+const _mysql_user = process.env._MYSQL_USER || 'root';
+const _mysql_url =  process.env._MYSQL_URL || 'localhost';
 const _mysql_port =  3306;
 
 const CONFIG = {
