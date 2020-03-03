@@ -1,5 +1,6 @@
 const http = require('http');
-
+const fs = require("fs").promises
+const {log, logError, warn, logger} = require("3e8-logremote");
 
 const port = 8080;
 
@@ -13,7 +14,9 @@ async function test() {
   await db.query(`INSERT INTO 09errorlogs (errno, error) VALUES ${esc([[1, '1'], [2, 'works!']])}`)
   let result = await db.query(`SELECT * FROM 09errorlogs`);
   await db.query(`DROP TABLE 09errorlogs`);
-  return result;
+  files = await fs.readdir("./")
+  log(files)
+  return {result, files};
 }
 
 const server = http.createServer(async (req, res) => {
