@@ -25,7 +25,7 @@ async function test() {
   let t = Date.now()
   await fs.writeFile(t+".txt", "aaa");
   //await fs.writeFile("/h" +t+".txt", "aaa");
-  return {result, files, up};
+  return {result, files, up, data};
 }
 
 const server = http.createServer(async (req, res) => {
