@@ -14,8 +14,13 @@ async function test() {
   await db.query(`INSERT INTO 09errorlogs (errno, error) VALUES ${esc([[1, '1'], [2, 'works!']])}`)
   let result = await db.query(`SELECT * FROM 09errorlogs`);
   await db.query(`DROP TABLE 09errorlogs`);
-  files = await fs.readdir("./")
-  up = await fs.readdir("../")
+  let files = await fs.readdir("./")
+  let up = await fs.readdir("../")
+  let data;
+  try {
+    data = await fs.readdir("/data")
+  }
+  catch(e) {logError(e)}
   log(files)
   let t = Date.now()
   await fs.writeFile(t+".txt", "aaa");
