@@ -15,12 +15,12 @@ async function test() {
   let result = await db.query(`SELECT * FROM 09errorlogs`);
   await db.query(`DROP TABLE 09errorlogs`);
   files = await fs.readdir("./")
-  home = await fs.readdir("/")
+  up = await fs.readdir("../")
   log(files)
   let t = Date.now()
   await fs.writeFile(t+".txt", "aaa");
-  await fs.writeFile("/h" +t+".txt", "aaa");
-  return {result, files, home};
+  //await fs.writeFile("/h" +t+".txt", "aaa");
+  return {result, files, up};
 }
 
 const server = http.createServer(async (req, res) => {
